@@ -1,72 +1,206 @@
-# Ghost-queue-
-Stagnant reports
-# PROJECT GHOST QUEUE — TECHNICAL ARCHITECTURE
-**Team:** HackLabs  
-**Project:** Find the People a System Has Forgotten
+<!-- GHOST QUEUE | README.md -->
 
-## 1. System Overview
+<div align="center">
 
-Ghost Queue is an AI-assisted workflow auditing system that analyzes administrative case records to identify stalled cases, repeated departmental transfers, missing information, and unusual delays. It prioritizes potential interventions and provides explainable recommendations for human review.
+<img src="https://capsule-render.vercel.app/api?type=rect&height=190&color=0:080D18,50:101D32,100:123D4A&text=GHOST%20QUEUE&fontColor=EAF7FF&fontSize=52&fontAlignY=43&desc=WORKFLOW%20INTELLIGENCE%20%2F%20HUMAN-CENTERED%20AI&descSize=12&descAlignY=68&animation=fadeIn" width="100%" alt="Ghost Queue — Workflow Intelligence"/>
 
-## 2. Architecture and Data Flow
+<br/>
 
-**Layer 1 — Data Input**
-- Accept case records through CSV uploads or a structured API.
-- Required fields: Case ID, creation date, current status, last updated date, department history, and missing-information indicators.
-- Use fictional or anonymized records for the prototype.
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=400&size=14&duration=3200&pause=1200&color=64D8E6&center=true&vCenter=true&width=650&lines=Detect+stagnation.;Trace+workflow+failures.;Prioritize+human+intervention." alt="Detect stagnation. Trace workflow failures. Prioritize human intervention."/>
 
-**Layer 2 — Data Validation and Preprocessing**
-- Validate required fields and timestamps.
-- Normalize case statuses and department names.
-- Identify incomplete or inconsistent records.
-- Exclude or flag records that cannot be assessed reliably.
+<br/>
 
-**Layer 3 — Workflow Analysis Engine**
-- Detect cases exceeding configurable processing-time thresholds.
-- Identify repeated transfers between departments.
-- Flag cases with missing information or no recent activity.
-- Distinguish confirmed workflow events from potential risk indicators.
+**An AI-assisted workflow auditor for cases that get stuck between processes.**
 
-**Layer 4 — AI-Assisted Explanation**
-- Generate understandable explanations for flagged cases.
-- Summarize the observed delay or handoff pattern.
-- Suggest possible next steps based on the available evidence.
-- Label uncertain conclusions and avoid inventing missing facts.
+<br/>
 
-**Layer 5 — Intervention Prioritization**
-Rank cases or proposed interventions using four factors:
-- **Urgency:** How time-sensitive the case is.
-- **Expected benefit:** The potential improvement from intervention.
-- **Confidence:** How strongly the available evidence supports the recommendation.
-- **Implementation cost:** The estimated effort or resources required.
+<img src="https://img.shields.io/badge/AI%20SYNERGY-2026-152A40?style=flat-square" alt="AI Synergy 2026"/>
+<img src="https://img.shields.io/badge/TEAM-HACKLABS-152A40?style=flat-square" alt="Team HackLabs"/>
+<img src="https://img.shields.io/badge/DOMAIN-AI%20FOR%20ALL-152A40?style=flat-square" alt="AI for All"/>
+<img src="https://img.shields.io/badge/APPROACH-EXPLAINABLE%20AI-152A40?style=flat-square" alt="Explainable AI"/>
 
-The prototype can use a documented weighted scoring formula to rank interventions. The weights should be configurable and validated rather than treated as universally correct.
+</div>
 
-**Layer 6 — Human Review and Dashboard**
-Display flagged cases, evidence, priority scores, explanations, and recommended next actions. Authorized staff can review, approve, reject, or defer recommendations. The system does not automatically make consequential decisions about individuals.
+---
 
-## 3. Proposed Technology Stack
+## 01 / THE PROBLEM
 
-- **Backend and analysis:** Python
-- **Data processing:** Pandas
-- **API (optional):** FastAPI
-- **AI integration (optional):** An LLM API for evidence-grounded explanations
-- **Dashboard:** Streamlit
-- **Storage:** CSV or SQLite for the initial prototype; a secure database for later deployment
-- **Version control:** Git and GitHub
+### A pending status does not explain a stalled process.
 
-## 4. End-to-End Workflow
+Administrative workflows can contain unresolved cases that repeatedly change departments, remain inactive, or encounter missing-information blockers.
 
-**Upload records → Validate data → Analyze workflow patterns → Flag at-risk cases → Calculate intervention priorities → Generate explanations → Human review → Record outcomes**
+Traditional deadline-based tracking may fail to surface combinations of warning signs before a case becomes overdue.
 
-## 5. Technical Feasibility and Demonstration
+**Ghost Queue investigates the space between “still pending” and “actually progressing.”**
 
-The minimum viable prototype can run on a laptop using synthetic case records. A demonstration will show a routine case, a stalled case, a case repeatedly transferred between departments, and a case with missing information. The system will display why each relevant case was flagged and how the proposed intervention ranking was calculated.
+---
 
-Evaluation will measure detection precision, false-positive rate, explanation quality, and whether the ranking follows the documented prioritization rules.
+## 02 / THE SYSTEM
 
-## 6. Privacy and Limitations
+<div align="center">
 
-The prototype will use fictional or anonymized data, restrict access to sensitive records, and keep an auditable record of recommendations. Detection depends on the completeness and quality of the available case history. AI-generated explanations will be grounded in recorded evidence and reviewed by humans.
+| DETECT | EXPLAIN | PRIORITIZE |
+|:---:|:---:|:---:|
+| Identify workflow anomalies | Trace alerts to evidence | Support human review |
+| `RULE ENGINE` | `AI ANALYSIS` | `DECISION SUPPORT` |
 
-**Expected outcome:** A feasible, explainable prototype that makes overlooked administrative cases visible and helps decision-makers direct attention toward appropriate interventions.
+</div>
+
+Ghost Queue combines deterministic workflow checks with AI-assisted explanations. It is designed to help reviewers understand which cases may require attention and why.
+
+### Core capabilities
+
+- **Stagnation analysis** — detect unusual inactivity relative to workflow expectations.
+- **Handoff analysis** — identify repeated departmental transfers without recorded progress.
+- **Data-quality checks** — surface missing fields and malformed records.
+- **Evidence-based explanations** — summarize the records and signals behind an alert.
+- **Intervention prioritization** — compare urgency, expected benefit, confidence, and implementation cost.
+- **Human oversight** — keep consequential decisions with authorized people.
+
+---
+
+## 03 / SYSTEM ARCHITECTURE
+
+```mermaid
+flowchart TB
+    A["CASE RECORDS<br/>CSV / JSON / Workflow History"]
+    B["DATA QUALITY GATE<br/>Validation · Normalization"]
+    C["WORKFLOW ANALYSIS<br/>Inactivity · Handoffs · Missing Data"]
+    D["DETECTION ENGINE<br/>Deterministic Rules"]
+    E["AI EXPLANATION LAYER<br/>Evidence Summarization"]
+    F["PRIORITIZATION<br/>Urgency · Benefit · Confidence · Cost"]
+    G["REVIEW INTERFACE<br/>Evidence · Recommended Next Steps"]
+    H["HUMAN DECISION<br/>Review · Approve · Reject"]
+    I["AUDIT TRAIL<br/>Alerts · Explanations · Decisions"]
+
+    A --> B --> C --> D
+    D --> E --> F --> G --> H --> I
+
+    D -. "Rule alerts remain available" .-> G
+
+    classDef source fill:#111D2C,stroke:#52738B,color:#EAF7FF
+    classDef rules fill:#102A3A,stroke:#42B8CA,color:#EAFBFF
+    classDef ai fill:#17243A,stroke:#8AA8D0,color:#F1F5FF
+    classDef human fill:#132D2B,stroke:#63B8A8,color:#E8FFF9
+
+    class A,B,C source
+    class D rules
+    class E,F ai
+    class G,H,I human
+```
+
+<details>
+<summary><strong>View the processing sequence</strong></summary>
+
+1. Ingest case records and workflow history.
+2. Validate the input and identify data-quality issues.
+3. Calculate workflow signals using transparent rules.
+4. Generate an explanation from available evidence using an LLM.
+5. Rank cases for review using configurable prioritization criteria.
+6. Present alerts and supporting evidence to a human reviewer.
+7. Record review outcomes for auditability and future evaluation.
+
+</details>
+
+---
+
+## 04 / ENGINEERING PRINCIPLES
+
+### Rules for detection. AI for explanation. Humans for decisions.
+
+| Layer | Responsibility |
+|---|---|
+| Rule engine | Calculate inactivity, transfer frequency, missing fields, and other measurable signals. |
+| AI layer | Summarize evidence and describe possible blockers without presenting speculation as fact. |
+| Prioritization | Apply transparent criteria to support review ordering. |
+| Human review | Decide whether an alert is valid and what action is appropriate. |
+| Audit trail | Preserve the relationship between source evidence, alerts, and decisions. |
+
+**Failure boundary:** an LLM failure should not erase an independently generated rule-based alert. Explanations must remain traceable to source evidence.
+
+---
+
+## 05 / TECHNOLOGY
+
+| Component | Proposed technology |
+|---|---|
+| Workflow orchestration | n8n |
+| Database | Supabase / PostgreSQL |
+| Workflow logic | JavaScript |
+| AI explanations | Gemini or compatible LLM API |
+| Input | CSV / JSON |
+| Interface | Web-based review dashboard |
+
+> The architecture above describes the intended system. Update this section to distinguish implemented components from planned integrations before presenting the repository as a working prototype.
+
+---
+
+## 06 / VALIDATION
+
+Ghost Queue should be evaluated against simpler approaches rather than judged only by whether its interface looks convincing.
+
+| Baseline | Evaluation question |
+|---|---|
+| Oldest-first | Does case age alone identify the right cases? |
+| Overdue-only | Are deadline alerts sufficient? |
+| Multi-signal rules | Does combining workflow signals improve detection? |
+| Rules + AI explanation | Do explanations improve reviewer understanding? |
+
+**Metrics**
+
+- Precision and recall of flagged cases
+- False-positive rate
+- Detection of high-priority cases
+- Traceability of explanations
+- Usefulness of recommendations to reviewers
+
+Synthetic-data results can demonstrate technical behavior, but they cannot establish real-world effectiveness.
+
+---
+
+## 07 / RESPONSIBLE AI
+
+<div align="center">
+
+**AN ALERT IS EVIDENCE FOR REVIEW — NOT A VERDICT.**
+
+</div>
+
+- Minimize the use of personal and sensitive information.
+- Do not equate missing records with wrongdoing.
+- Account for legitimate waiting periods and process-specific constraints.
+- Keep explanations grounded in the supplied evidence.
+- Require human review before consequential action.
+- Measure false positives and assess the risk of unfair prioritization.
+
+---
+
+## 08 / TEAM
+
+<div align="center">
+
+| Member | Responsibility |
+|---|---|
+| **Aparajita Singh** | Case investigation |
+| **Anamika Sharma** | Problem statement and evidence |
+| **Anushka Shukla** | Solution development |
+| **Angel Jain** | Workflow design |
+
+**HACKLABS**  
+AI Synergy Hackathon 2026 · AI for All
+
+</div>
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=rect&height=90&color=0:123D4A,50:101D32,100:080D18&section=footer" width="100%" alt="Ghost Queue footer"/>
+
+<sub>GHOST QUEUE / WORKFLOW INTELLIGENCE / HUMAN-CENTERED AI</sub>
+
+<br/><br/>
+
+*Making invisible workflow failures visible.*
+
+</div>
