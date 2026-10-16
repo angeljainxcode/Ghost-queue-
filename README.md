@@ -1,3 +1,15 @@
+<div align="center">
+  <img
+    src="assets/ghost-queue-hero.svg"
+    alt="Ghost Queue — Workflow Intelligence"
+    width="100%"
+  />
+  <br/>
+
+  <p>
+    <strong>Detect stagnation. Trace workflow failures. Prioritize intervention.</strong>
+  </p>
+</div>
 <!-- GHOST QUEUE | README.md -->
 
 <div align="center">
