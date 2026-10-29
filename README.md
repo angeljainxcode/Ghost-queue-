@@ -1,3 +1,5 @@
+# 👻 GHOST QUEUE — Workflow Intelligence
+
 <div align="center">
   <img
     src="assets/ghost-queue-hero.svg"
@@ -22,7 +24,7 @@
 
 <br/>
 
-**An AI-assisted workflow auditor for cases that get stuck between processes.**
+**An AI-assisted workflow auditor that helps uncover why cases stall, where processes break down, and what deserves human attention first.**
 
 <br/>
 
@@ -37,58 +39,66 @@
 
 ## 01 / THE PROBLEM
 
-### A pending status does not explain a stalled process.
+### A case marked “pending” can hide a much bigger problem.
 
-Administrative workflows can contain unresolved cases that repeatedly change departments, remain inactive, or encounter missing-information blockers.
+Across administrative and service-delivery workflows, cases can remain unresolved because of missing information, repeated handoffs, unclear ownership, or long periods of inactivity.
 
-Traditional deadline-based tracking may fail to surface combinations of warning signs before a case becomes overdue.
+A status label tells us where a case stands. It rarely explains **why it is stuck, what has gone wrong, or what should happen next.**
 
-**Ghost Queue investigates the space between “still pending” and “actually progressing.”**
+Traditional tracking often relies on deadlines and manual follow-ups. These methods can overlook combinations of warning signs until delays become harder to resolve.
+
+Ghost Queue focuses on the gap between a case being *open* and a case actually *moving forward*.
+
+**Our mission:** make invisible workflow failures visible before they become prolonged delays.
 
 ---
 
-## 02 / THE SYSTEM
+## 02 / THE SOLUTION
+
+### From scattered workflow records to actionable insights.
+
+Ghost Queue combines transparent rule-based detection with AI-assisted analysis to help reviewers identify stalled workflows, understand possible blockers, and prioritize cases for investigation.
 
 <div align="center">
 
 | DETECT | EXPLAIN | PRIORITIZE |
 |:---:|:---:|:---:|
-| Identify workflow anomalies | Trace alerts to evidence | Support human review |
-| `RULE ENGINE` | `AI ANALYSIS` | `DECISION SUPPORT` |
+| Find unusual workflow patterns | Connect alerts to recorded evidence | Support informed human intervention |
+| `RULE ENGINE` | `AI ANALYSIS` | `HUMAN REVIEW` |
 
 </div>
 
-Ghost Queue combines deterministic workflow checks with AI-assisted explanations. It is designed to help reviewers understand which cases may require attention and why.
-
 ### Core capabilities
 
-- **Stagnation analysis** — detect unusual inactivity relative to workflow expectations.
-- **Handoff analysis** — identify repeated departmental transfers without recorded progress.
-- **Data-quality checks** — surface missing fields and malformed records.
-- **Evidence-based explanations** — summarize the records and signals behind an alert.
-- **Intervention prioritization** — compare urgency, expected benefit, confidence, and implementation cost.
-- **Human oversight** — keep consequential decisions with authorized people.
+- **Stagnation detection** — identify unusual inactivity against configurable workflow expectations.
+- **Handoff tracing** — detect repeated transfers between departments without corresponding progress.
+- **Missing-information analysis** — surface incomplete fields, missing updates, and potential blockers.
+- **Ghost Signals** — combine multiple workflow anomalies to highlight cases that may deserve closer review.
+- **Evidence-linked explanations** — show which records and signals contributed to an alert.
+- **Intervention prioritization** — organize review queues using urgency, confidence, expected benefit, and implementation cost.
+- **Human-in-the-loop decisions** — let authorized reviewers validate alerts and decide what action to take.
+
+**The goal is not to replace people who manage workflows. It is to help them notice what ordinary status tracking misses.**
 
 ---
 
-## 03 / SYSTEM ARCHITECTURE
+## 03 / HOW IT WORKS
 
 ```mermaid
-flowchart TB
-    A["CASE RECORDS<br/>CSV / JSON / Workflow History"]
-    B["DATA QUALITY GATE<br/>Validation · Normalization"]
-    C["WORKFLOW ANALYSIS<br/>Inactivity · Handoffs · Missing Data"]
-    D["DETECTION ENGINE<br/>Deterministic Rules"]
-    E["AI EXPLANATION LAYER<br/>Evidence Summarization"]
-    F["PRIORITIZATION<br/>Urgency · Benefit · Confidence · Cost"]
-    G["REVIEW INTERFACE<br/>Evidence · Recommended Next Steps"]
-    H["HUMAN DECISION<br/>Review · Approve · Reject"]
-    I["AUDIT TRAIL<br/>Alerts · Explanations · Decisions"]
+flowchart TD
+    A["Workflow Records<br/>CSV · JSON · Case History"]
+    B["Data Quality Gate<br/>Validate · Normalize"]
+    C["Workflow Signal Analysis<br/>Inactivity · Handoffs · Missing Data"]
+    D["Rule-Based Detection<br/>Transparent Conditions"]
+    E["AI-Assisted Explanation<br/>Evidence · Possible Blockers"]
+    F["Priority Assessment<br/>Urgency · Confidence · Benefit · Cost"]
+    G["Review Dashboard<br/>Alerts · Evidence · Next Steps"]
+    H["Human Review<br/>Validate · Approve · Reject"]
+    I["Audit Trail<br/>Alerts · Explanations · Decisions"]
 
     A --> B --> C --> D
     D --> E --> F --> G --> H --> I
-
-    D -. "Rule alerts remain available" .-> G
+    D -. "Preserve rule alerts" .-> G
 
     classDef source fill:#111D2C,stroke:#52738B,color:#EAF7FF
     classDef rules fill:#102A3A,stroke:#42B8CA,color:#EAFBFF
@@ -101,93 +111,143 @@ flowchart TB
     class G,H,I human
 ```
 
-<details>
-<summary><strong>View the processing sequence</strong></summary>
+### The workflow
 
-1. Ingest case records and workflow history.
-2. Validate the input and identify data-quality issues.
-3. Calculate workflow signals using transparent rules.
-4. Generate an explanation from available evidence using an LLM.
-5. Rank cases for review using configurable prioritization criteria.
-6. Present alerts and supporting evidence to a human reviewer.
-7. Record review outcomes for auditability and future evaluation.
+1. **Ingest:** load available case records and workflow history.
+2. **Validate:** check data quality and normalize relevant fields.
+3. **Detect:** calculate measurable workflow signals using explicit rules.
+4. **Explain:** use an AI model to summarize evidence and suggest possible explanations.
+5. **Prioritize:** rank cases using configurable criteria rather than opaque model judgments alone.
+6. **Review:** present alerts, supporting records, and potential next steps to a human.
+7. **Record:** preserve the alert, explanation, and review outcome for auditability.
+
+<details>
+<summary><strong>What makes a Ghost Signal?</strong></summary>
+
+A Ghost Signal is a workflow warning produced when available records indicate a possible breakdown in progress.
+
+For example, a case may have been inactive for an unusually long period, transferred between departments several times, and still be missing a required update.
+
+Individually, these signals may have reasonable explanations. Together, they can justify a closer look.
+
+Ghost Signals are **indicators for review, not proof of negligence or wrongdoing**. Their interpretation depends on the workflow, data quality, and human judgment.
 
 </details>
 
 ---
 
-## 04 / ENGINEERING PRINCIPLES
+## 04 / HUMAN + AI SYNERGY
 
-### Rules for detection. AI for explanation. Humans for decisions.
+### Rules detect. AI explains. Humans decide.
+
+Ghost Queue is designed around complementary strengths rather than fully autonomous decision-making.
+
+| Human intelligence | AI assistance |
+|---|---|
+| Understands operational context | Processes available records consistently |
+| Recognizes exceptions and legitimate delays | Surfaces patterns across multiple signals |
+| Challenges incorrect assumptions | Drafts evidence-linked explanations |
+| Makes accountable decisions | Helps compare possible next steps |
+
+### Why combine them?
+
+A rule engine can identify a measurable anomaly without understanding its operational meaning. An AI model can generate a plausible explanation that still needs verification. A human reviewer can bring context and accountability, but may struggle to manually inspect large volumes of records.
+
+Together, these capabilities can support faster, more transparent review.
+
+**Example:** Ghost Queue flags an unusually inactive case with repeated departmental transfers. AI summarizes the recorded timeline and identifies missing updates. A human reviewer checks the underlying records before deciding whether intervention is needed.
+
+---
+
+## 05 / ENGINEERING ARCHITECTURE
+
+### A reliable detection layer, with AI as an explainability layer.
 
 | Layer | Responsibility |
 |---|---|
-| Rule engine | Calculate inactivity, transfer frequency, missing fields, and other measurable signals. |
-| AI layer | Summarize evidence and describe possible blockers without presenting speculation as fact. |
-| Prioritization | Apply transparent criteria to support review ordering. |
-| Human review | Decide whether an alert is valid and what action is appropriate. |
-| Audit trail | Preserve the relationship between source evidence, alerts, and decisions. |
+| Data ingestion | Accept structured workflow records such as CSV or JSON |
+| Validation | Check required fields, inconsistent formats, and incomplete records |
+| Rule engine | Calculate inactivity, repeated handoffs, and other measurable signals |
+| AI explanation layer | Summarize source evidence and describe possible blockers |
+| Prioritization | Apply configurable, transparent review criteria |
+| Review interface | Display alerts, evidence, explanations, and suggested next steps |
+| Audit trail | Preserve decisions and the evidence associated with each alert |
 
-**Failure boundary:** an LLM failure should not erase an independently generated rule-based alert. Explanations must remain traceable to source evidence.
+### Failure boundaries
+
+- Rule-based alerts should remain available if the AI service fails.
+- AI explanations should reference available evidence and distinguish facts from hypotheses.
+- Missing data should not automatically be interpreted as misconduct.
+- Priority scores should be inspectable and configurable.
+- Consequential actions must remain subject to authorized human review.
 
 ---
 
-## 05 / TECHNOLOGY
+## 06 / TECHNOLOGY STACK
 
-| Component | Proposed technology |
+| Component | Technology |
 |---|---|
 | Workflow orchestration | n8n |
-| Database | Supabase / PostgreSQL |
-| Workflow logic | JavaScript |
-| AI explanations | Gemini or compatible LLM API |
-| Input | CSV / JSON |
-| Interface | Web-based review dashboard |
+| Database and persistence | Supabase / PostgreSQL |
+| Workflow rules | JavaScript |
+| AI-assisted explanations | Adaption model/API integration, where supported |
+| Input formats | CSV / JSON |
+| Review experience | Web-based dashboard |
 
-> The architecture above describes the intended system. Update this section to distinguish implemented components from planned integrations before presenting the repository as a working prototype.
+> **Implementation transparency:** update this section as components are integrated. A planned integration should not be presented as a completed feature. Model access, API configuration, and supported capabilities must be verified in the actual deployment.
 
 ---
 
-## 06 / VALIDATION
+## 07 / VALIDATION & EVALUATION
 
-Ghost Queue should be evaluated against simpler approaches rather than judged only by whether its interface looks convincing.
+### A convincing demo should prove more than a convincing interface.
 
-| Baseline | Evaluation question |
+Ghost Queue should be evaluated against simpler alternatives to determine whether multi-signal detection and AI explanations add measurable value.
+
+| Baseline | What we evaluate |
 |---|---|
-| Oldest-first | Does case age alone identify the right cases? |
-| Overdue-only | Are deadline alerts sufficient? |
-| Multi-signal rules | Does combining workflow signals improve detection? |
-| Rules + AI explanation | Do explanations improve reviewer understanding? |
+| Oldest-first queue | Can case age alone identify cases needing attention? |
+| Overdue-only rules | Do deadline alerts miss cases that are stalled but not yet overdue? |
+| Multi-signal detection | Does combining workflow indicators improve prioritization? |
+| Rules + AI explanations | Do evidence-linked explanations improve reviewer understanding? |
 
-**Metrics**
+### Evaluation metrics
 
-- Precision and recall of flagged cases
-- False-positive rate
-- Detection of high-priority cases
-- Traceability of explanations
-- Usefulness of recommendations to reviewers
+- **Precision:** what proportion of flagged cases genuinely merit review?
+- **Recall:** how many relevant stalled cases are detected?
+- **False-positive rate:** how often are legitimate cases incorrectly flagged?
+- **Evidence traceability:** can reviewers identify the records behind an alert?
+- **Explanation quality:** are explanations accurate, grounded, and understandable?
+- **Reviewer usefulness:** do the results help reviewers decide what to investigate next?
 
-Synthetic-data results can demonstrate technical behavior, but they cannot establish real-world effectiveness.
+Synthetic datasets can demonstrate expected system behavior. They do not, by themselves, establish effectiveness in real-world administrative workflows.
+
+No benchmark or performance claim should be published until it has been measured and documented.
 
 ---
 
-## 07 / RESPONSIBLE AI
+## 08 / RESPONSIBLE AI
 
 <div align="center">
 
-**AN ALERT IS EVIDENCE FOR REVIEW — NOT A VERDICT.**
+**AN ALERT IS A REASON TO REVIEW — NOT A VERDICT.**
 
 </div>
 
-- Minimize the use of personal and sensitive information.
-- Do not equate missing records with wrongdoing.
-- Account for legitimate waiting periods and process-specific constraints.
-- Keep explanations grounded in the supplied evidence.
-- Require human review before consequential action.
-- Measure false positives and assess the risk of unfair prioritization.
+Ghost Queue is intended to support responsible workflow oversight.
+
+- **Privacy first:** use only the data necessary for the task.
+- **Evidence over speculation:** distinguish recorded facts from AI-generated hypotheses.
+- **Context matters:** account for legitimate waiting periods and workflow-specific rules.
+- **Human accountability:** keep consequential decisions with authorized people.
+- **Fair prioritization:** evaluate false positives and potential sources of bias.
+- **Auditable outcomes:** preserve the basis for alerts and the results of human review.
+
+The system should help people understand workflow problems without automatically assigning blame to individuals or departments.
 
 ---
 
-## 08 / TEAM
+## 09 / TEAM HACKLABS
 
 <div align="center">
 
